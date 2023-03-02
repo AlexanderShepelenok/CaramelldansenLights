@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,8 +10,8 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CaramelldansenLights" customModuleProvider="target" sceneMemberID="viewController">
-                    <mtkView key="view" contentMode="scaleToFill" colorPixelFormat="BGRA8Unorm" depthStencilPixelFormat="Invalid" paused="YES" enableSetNeedsDisplay="YES" id="cYd-8B-V8Z">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Caramellights" customModuleProvider="target" sceneMemberID="viewController">
+                    <mtkView key="view" contentMode="scaleToFill" colorPixelFormat="BGRA8Unorm" depthStencilPixelFormat="Invalid" id="cYd-8B-V8Z">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </mtkView>
