@@ -14,6 +14,7 @@
 		A54A47D729A791F700768551 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A54A47D629A791F700768551 /* Assets.xcassets */; };
 		A54A47DA29A791F700768551 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A54A47D829A791F700768551 /* LaunchScreen.storyboard */; };
 		A54A47E229A7920A00768551 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = A54A47E129A7920900768551 /* Shaders.metal */; };
+		A56192F929DDB00B004C002F /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56192F829DDB00B004C002F /* Camera.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		A54A47D929A791F700768551 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A54A47DB29A791F700768551 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54A47E129A7920900768551 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		A56192F829DDB00B004C002F /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				A54A47CD29A791F500768551 /* AppDelegate.swift */,
 				A54A47CF29A791F500768551 /* SceneDelegate.swift */,
 				A54A47D129A791F500768551 /* ViewController.swift */,
+				A56192F829DDB00B004C002F /* Camera.swift */,
 				A54A47D329A791F500768551 /* Main.storyboard */,
 				A54A47D629A791F700768551 /* Assets.xcassets */,
 				A54A47D829A791F700768551 /* LaunchScreen.storyboard */,
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A54A47E229A7920A00768551 /* Shaders.metal in Sources */,
+				A56192F929DDB00B004C002F /* Camera.swift in Sources */,
 				A54A47D229A791F500768551 /* ViewController.swift in Sources */,
 				A54A47CE29A791F500768551 /* AppDelegate.swift in Sources */,
 				A54A47D029A791F500768551 /* SceneDelegate.swift in Sources */,

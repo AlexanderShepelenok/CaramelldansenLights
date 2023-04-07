@@ -7,6 +7,7 @@
 
 import UIKit
 import MetalKit
+import CoreVideo
 
 class ViewController: UIViewController {
 
@@ -14,9 +15,17 @@ class ViewController: UIViewController {
         let device: MTLDevice
         let commandQueue: MTLCommandQueue
         let pipelineState: MTLRenderPipelineState
+        let textureCache: CVMetalTextureCache
     }
 
     @IBOutlet var mtkView: MTKView!
+
+    var texture: MTLTexture?
+
+    lazy var camera: Camera = {
+        $0.delegate = self
+        return $0
+    }(Camera())
 
     lazy var renderer: Renderer = {
         guard let device = MTLCreateSystemDefaultDevice(),
@@ -37,8 +46,21 @@ class ViewController: UIViewController {
             fatalError("Unable to create pipeline")
         }
 
-        return Renderer(device: device, commandQueue: queue, pipelineState: pipelineState)
+        var textureCache: CVMetalTextureCache?
+        guard CVMetalTextureCacheCreate(nil, nil, device, nil, &textureCache) == kCVReturnSuccess,
+              let textureCache = textureCache else {
+            fatalError("Unable to allocate texture cache.")
+        }
+
+        return Renderer(device: device, commandQueue: queue, pipelineState: pipelineState, textureCache: textureCache)
     }()
+
+    private let vertices = [
+        Vertex(position: [-1, -1]),
+        Vertex(position: [1, -1]),
+        Vertex(position: [-1, 1]),
+        Vertex(position: [1, 1])
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,25 +69,26 @@ class ViewController: UIViewController {
         mtkView.device = renderer.device
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.camera.start()
+    }
+
+    private func viewportSize(with size: CGSize) -> simd_float2 {
+        simd_float2(Float(size.width), Float(size.height))
+    }
+
 }
 
 struct Vertex {
-    let position: vector_float2
+    let position: simd_float2
 }
 
-extension ViewController: MTKViewDelegate {
+extension ViewController: MTKViewDelegate, CameraDelegate {
 
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
-        
         guard let currentDrawable = view.currentDrawable else { return }
-
-        let vertices = [
-            Vertex(position: [-1, 1]),
-            Vertex(position: [1, 1]),
-            Vertex(position: [-1, -1])
-        ]
 
         guard
             let renderPassDescriptor = mtkView.currentRenderPassDescriptor,
@@ -73,12 +96,16 @@ extension ViewController: MTKViewDelegate {
             let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor),
             let vertexBuffer = renderer.device.makeBuffer(bytes: vertices,
                                                           length: vertices.count * MemoryLayout<Vertex>.stride,
-                                                          options: []) else {
+                                                          options: [])
+        else {
             print("Failed to draw vertices")
             return
         }
 
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        if let texture = self.texture {
+            renderEncoder.setFragmentTexture(texture, index: 0)
+        }
         renderEncoder.setRenderPipelineState(renderer.pipelineState)
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
         renderEncoder.endEncoding()
@@ -87,5 +114,26 @@ extension ViewController: MTKViewDelegate {
         commandBuffer.commit()
     }
 
-}
+    // MARK: - Camera delegate
 
+    func cameraDidOutputImageBuffer(_ buffer: CVPixelBuffer) {
+        let bufferWidth = CVPixelBufferGetWidth(buffer)
+        let bufferHeight = CVPixelBufferGetHeight(buffer)
+        var textureOutput: CVMetalTexture?
+        CVMetalTextureCacheCreateTextureFromImage(
+            kCFAllocatorDefault,
+            renderer.textureCache,
+            buffer,
+            nil,
+            .bgra8Unorm,
+            Int(bufferWidth),
+            Int(bufferHeight),
+            0,
+            &textureOutput
+        )
+        if let textureOutput = textureOutput {
+            self.texture = CVMetalTextureGetTexture(textureOutput)
+        }
+    }
+
+}
