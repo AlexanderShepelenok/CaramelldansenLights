@@ -10,30 +10,25 @@ using namespace metal;
 
 struct VertexIn {
     float2 position [[attribute(0)]];
-    float3 color [[attribute(1)]];
 };
 
 struct VertexOut {
     float4 position [[position]];
-    float4 color;
-};
-
-struct Uniforms {
-    float2 viewportSize;
-    float4x4 modelViewMatrix;
+    float2 textureCoordinate;
 };
 
 vertex VertexOut vertex_main(uint vertexID [[vertex_id]],
-                             constant VertexIn *vertices [[buffer(0)]],
-                             constant Uniforms &uniforms [[buffer(1)]]) {
+                             constant VertexIn *vertices [[buffer(0)]]) {
     VertexOut out;
-    float4 rotatedPos = uniforms.modelViewMatrix * float4(vertices[vertexID].position.xy, 0, 1);
-    float2 position = rotatedPos.xy / (uniforms.viewportSize / 2.0);
-    out.position = float4(position, 0, 1);
-    out.color = float4(vertices[vertexID].color, 1);
+    out.position = vector_float4(0, 0, 0, 1);
+    out.position.xy = vertices[vertexID].position.xy;
+    out.textureCoordinate = (1 - out.position.yx) * 0.5;
     return out;
 }
 
-fragment float4 fragment_main(VertexOut in [[stage_in]]) {
-    return in.color;
+fragment float4 fragment_main(VertexOut in [[stage_in]],
+                              texture2d<float> texture [[texture(0)]]) {
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+    float4 color = texture.sample(textureSampler, in.textureCoordinate);
+    return color * float4(in.textureCoordinate.x, in.textureCoordinate.y, 1.0 - in.textureCoordinate.x, 1.0);
 }
