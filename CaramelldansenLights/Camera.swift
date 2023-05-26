@@ -7,21 +7,37 @@
 
 import Foundation
 import AVFoundation
+import CoreMedia
 
 final class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     private let captureSession = AVCaptureSession()
+    private let videoCaptureDevice: AVCaptureDevice
+    private let videoInput: AVCaptureDeviceInput
     private let cameraQueue = DispatchQueue(label: "com.zoobras.CaramelldansenLights.cameraQueue")
     private let bufferQueue = DispatchQueue(label: "com.zoobras.CaramelldansenLights.cameraBufferQueue")
 
     weak var delegate: CameraDelegate?
 
+    var videoSize: (width: Int, height: Int) {
+        let formatDescription = videoCaptureDevice.activeFormat.formatDescription
+        let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+        let width = Int(dimensions.width)
+        let height = Int(dimensions.height)
+
+        return (width, height)
+    }
+    
     override init() {
+        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video),
+              let videoInput = try? AVCaptureDeviceInput(device: videoCaptureDevice) else {
+            fatalError("🚨 Unable to initialize camera")
+        }
+        self.videoCaptureDevice = videoCaptureDevice
+        self.videoInput = videoInput
+        
         super.init()
+        
         cameraQueue.async {
-            guard let videoCaptureDevice = AVCaptureDevice.default(for: .video),
-                  let videoInput = try? AVCaptureDeviceInput(device: videoCaptureDevice) else {
-                fatalError("🚨 Unable to initialize camera")
-            }
             if self.captureSession.canAddInput(videoInput) {
                 self.captureSession.addInput(videoInput)
             }
@@ -31,9 +47,10 @@ final class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             videoOutput.alwaysDiscardsLateVideoFrames = true
 
             self.captureSession.addOutput(videoOutput)
+
         }
     }
-
+    
     func start() {
         cameraQueue.async {
             self.captureSession.startRunning()
