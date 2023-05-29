@@ -15,6 +15,9 @@ final class VideoRecorder {
     private let adaptor: AVAssetWriterInputPixelBufferAdaptor
     
     var isRecording = false
+    var initialPresentationTime: CMTime?
+    
+    let recorderQueue = DispatchQueue(label: "com.zoobras.CaramelldansenLights.videoRecorderQueue")
     
     init(videoWidth: Int, videoHeight: Int) {
         self.assetWriter = try! AVAssetWriter(outputURL: fileUrl, fileType: AVFileType.mp4)
@@ -39,24 +42,36 @@ final class VideoRecorder {
     }
     
     func start() {
-        if !isRecording {
-            isRecording = true
-            assetWriter.startWriting()
-            assetWriter.startSession(atSourceTime: .zero)
+        recorderQueue.async { [unowned self] in
+            try? FileManager.default.removeItem(at: fileUrl)
+            if !isRecording {
+                isRecording = true
+                assetWriter.startWriting()
+                assetWriter.startSession(atSourceTime: .zero)
+            }
         }
     }
     
     func appendPixelBuffer(_ buffer: CVPixelBuffer, presentationTime: CMTime) {
-        if isRecording {
-            adaptor.append(buffer, withPresentationTime: presentationTime)
+        recorderQueue.async { [unowned self] in
+            if isRecording, videoInput.isReadyForMoreMediaData {
+                if initialPresentationTime == nil { initialPresentationTime = presentationTime }
+                let relativeTime = CMTimeSubtract(presentationTime, self.initialPresentationTime ?? presentationTime)
+                adaptor.append(buffer, withPresentationTime: relativeTime)
+                print("data added! \(relativeTime.value)")
+            }
         }
     }
     
     func stop(completion: @escaping () -> Void) {
-        if isRecording {
-            isRecording = false
-            assetWriter.finishWriting {
-                completion()
+        recorderQueue.async { [unowned self] in
+            if isRecording {
+                isRecording = false
+                assetWriter.finishWriting {
+                    //print("Recording status: \(assetWriter.status)")
+                    //print("\(assetWriter.error?.localizedDescription)")
+                    completion()
+                }
             }
         }
     }

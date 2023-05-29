@@ -71,10 +71,13 @@ final class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let buffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-        delegate?.cameraDidOutputImageBuffer(buffer)
+        
+        let presentationTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+
+        delegate?.cameraDidOutputImageBuffer(buffer, presentationTime: presentationTime)
     }
 }
 
 protocol CameraDelegate: AnyObject {
-    func cameraDidOutputImageBuffer(_ buffer: CVPixelBuffer)
+    func cameraDidOutputImageBuffer(_ buffer: CVPixelBuffer, presentationTime: CMTime)
 }

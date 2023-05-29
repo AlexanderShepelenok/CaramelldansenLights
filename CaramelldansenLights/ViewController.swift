@@ -118,18 +118,17 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         camera.start()
-        let videoSize = camera.videoSize
-        recorder = VideoRecorder(videoWidth: videoSize.width, videoHeight: videoSize.height)
     }
     
     @IBAction func startAction(_ sender: Any) {
+        let videoSize = camera.videoSize
+        recorder = VideoRecorder(videoWidth: videoSize.width, videoHeight: videoSize.height)
         recorder?.start()
         let interval = TimeInterval(60.0 / 150.0)
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] time in
             self?.switchMask()
         }
         player?.play()
-        recorder?.start()
     }
     
     @IBAction func stopAction(_ sender: Any) {
@@ -137,6 +136,7 @@ class ViewController: UIViewController {
             if let url = self?.recorder?.fileUrl {
                 DispatchQueue.main.async {
                     self?.playVideo(url: url)
+                    self?.recorder = nil
                 }
             }
         }
@@ -203,7 +203,7 @@ extension ViewController: CameraDelegate {
     
     // MARK: - Camera delegate
     
-    func cameraDidOutputImageBuffer(_ buffer: CVPixelBuffer) {
+    func cameraDidOutputImageBuffer(_ buffer: CVPixelBuffer, presentationTime: CMTime) {
         let bufferWidth = CVPixelBufferGetWidth(buffer)
         let bufferHeight = CVPixelBufferGetHeight(buffer)
         var textureOutput: CVMetalTexture?
@@ -220,18 +220,16 @@ extension ViewController: CameraDelegate {
         )
         
         guard let textureOutput = textureOutput else { return }
+        guard let texture = CVMetalTextureGetTexture(textureOutput) else { return }
         
-        guard let texture = CVMetalTextureGetTexture(textureOutput),
-              let outputTexture = createOutputTexture(width: bufferWidth, height: bufferHeight) else { return }
+        applyMetalShaders(to: texture)
         
-        applyMetalShaders(to: texture, outputTexture: outputTexture)
+        self.texture = texture
         
-        self.texture = outputTexture
-        
-        recorder?.appendPixelBuffer(<#T##buffer: CVPixelBuffer##CVPixelBuffer#>, presentationTime: <#T##CMTime#>)
+        recorder?.appendPixelBuffer(buffer, presentationTime: presentationTime)
     }
     
-    func applyMetalShaders(to texture: MTLTexture, outputTexture: MTLTexture) {
+    func applyMetalShaders(to texture: MTLTexture) {
         let commandQueue = computer.commandQueue
         var currentMask = Constants.emptyMask
         if let maskIndex = self.currentMaskIndex {
@@ -253,7 +251,6 @@ extension ViewController: CameraDelegate {
 
         // Set the input and output textures for the shader
         computeEncoder.setTexture(texture, index: 0)
-        computeEncoder.setTexture(outputTexture, index: 1)
         computeEncoder.setBuffer(colorMaskBuffer, offset: 0, index: 0)
 
         // Dispatch the compute shader
@@ -268,18 +265,6 @@ extension ViewController: CameraDelegate {
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
     }
-    
-    func createOutputTexture(width: Int, height: Int) -> MTLTexture? {
-        let textureDescriptor = MTLTextureDescriptor()
-        textureDescriptor.textureType = .type2D
-        textureDescriptor.pixelFormat = .rgba8Unorm
-        textureDescriptor.width = width
-        textureDescriptor.height = height
-        textureDescriptor.usage = [.shaderRead, .shaderWrite] // Specify the desired usage
-
-        return computer.device.makeTexture(descriptor: textureDescriptor)
-    }
-    
 }
 
 extension ViewController {
