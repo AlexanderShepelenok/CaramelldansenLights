@@ -20,15 +20,17 @@ struct VertexOut {
 vertex VertexOut vertex_main(uint vertexID [[vertex_id]],
                              constant VertexIn *vertices [[buffer(0)]]) {
     VertexOut out;
-    float4 position = float4(vertices[vertexID].position.xy, 0, 1);
+    float2 position = vertices[vertexID].position.xy;
     out.position = float4(position.xy, 0, 1);
-    // Convert coordinate space from [-1,1] to [0,1]
-    out.textureCoordinate = 0.5 - position.yx * 0.5;
+    
+    // Convert coordinate space from [-1,1] to [0,-1]
+    out.textureCoordinate = float2((position.x + 1) * 0.5, 1 - (position.y + 1) * 0.5);
     return out;
 }
 
 struct FragmentUniforms {
     float4 colorMask;
+    uint2 outputSize;
 };
 
 fragment float4 fragment_main(VertexOut in [[stage_in]],
@@ -46,6 +48,6 @@ kernel void compute_color(texture2d<float, access::read> inputTexture [[texture(
     
     float4 inputColor = inputTexture.read(gid);
     float4 outputColor = inputColor * uniforms.colorMask;
-    
-    outputTexture.write(outputColor, gid);
+    uint2 position = uint2(uniforms.outputSize.x - gid.y, gid.x);
+    outputTexture.write(outputColor, position);
 }

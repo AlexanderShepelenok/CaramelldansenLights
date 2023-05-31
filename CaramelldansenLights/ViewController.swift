@@ -36,14 +36,9 @@ class ViewController: UIViewController {
     struct Renderer {
         let device: MTLDevice
         let commandQueue: MTLCommandQueue
-        let pipelineState: MTLRenderPipelineState
+        let renderPipelineState: MTLRenderPipelineState
+        let computePipelineState: MTLComputePipelineState
         let textureCache: CVMetalTextureCache
-    }
-    
-    struct Computer {
-        let device: MTLDevice
-        let commandQueue: MTLCommandQueue
-        let pipelineState: MTLComputePipelineState
     }
     
     @IBOutlet var mtkView: MTKView!
@@ -53,6 +48,8 @@ class ViewController: UIViewController {
     private var timer: Timer?
     private var player: AVAudioPlayer?
     private var recorder: VideoRecorder?
+    
+    weak var bufferAddress: CVPixelBuffer? = nil
     
     lazy var camera: Camera = {
         $0.delegate = self
@@ -74,33 +71,26 @@ class ViewController: UIViewController {
         pipelineDescriptor.fragmentFunction = fragmentFunction
         pipelineDescriptor.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
         
-        guard let pipelineState = try? device.makeRenderPipelineState(descriptor: pipelineDescriptor) else {
+        guard let renderPipelineState = try? device.makeRenderPipelineState(descriptor: pipelineDescriptor) else {
             fatalError("Unable to create pipeline")
         }
-        
+
+        guard let computeFunction = library?.makeFunction(name: "compute_color"),
+              let computePipelineState = try? device.makeComputePipelineState(function: computeFunction) else {
+            fatalError("Unable to create pipeline")
+        }
+
         var textureCache: CVMetalTextureCache?
         guard CVMetalTextureCacheCreate(nil, nil, device, nil, &textureCache) == kCVReturnSuccess,
               let textureCache = textureCache else {
             fatalError("Unable to allocate texture cache.")
         }
         
-        return Renderer(device: device, commandQueue: queue, pipelineState: pipelineState, textureCache: textureCache)
-    }()
-    
-    lazy var computer: Computer = {
-        guard let device = MTLCreateSystemDefaultDevice(),
-              let queue = device.makeCommandQueue() else {
-            fatalError("Unable to init Metal")
-        }
-        
-        let library = device.makeDefaultLibrary()
-
-        guard let computeFunction = library?.makeFunction(name: "compute_color"),
-              let pipelineState = try? device.makeComputePipelineState(function: computeFunction) else {
-            fatalError("Unable to create pipeline")
-        }
-        
-        return Computer(device: device, commandQueue: queue, pipelineState: pipelineState)
+        return Renderer(device: device,
+                        commandQueue: queue,
+                        renderPipelineState: renderPipelineState,
+                        computePipelineState: computePipelineState,
+                        textureCache: textureCache)
     }()
     
     override func viewDidLoad() {
@@ -109,7 +99,7 @@ class ViewController: UIViewController {
         mtkView.delegate = self
         mtkView.device = renderer.device
         
-        guard let url = Bundle.main.url(forResource: "jagermeister", withExtension: "mp3"),
+        guard let url = Bundle.main.url(forResource: "elbaion", withExtension: "m4a"),
               let player = try? AVAudioPlayer(contentsOf: url) else { fatalError() }
         
         player.prepareToPlay()
@@ -122,9 +112,9 @@ class ViewController: UIViewController {
     
     @IBAction func startAction(_ sender: Any) {
         let videoSize = camera.videoSize
-        recorder = VideoRecorder(videoWidth: videoSize.width, videoHeight: videoSize.height)
+        recorder = VideoRecorder(videoWidth: videoSize.height, videoHeight: videoSize.width)
         recorder?.start()
-        let interval = TimeInterval(60.0 / 150.0)
+        let interval = TimeInterval(60.0 / 93.0)
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] time in
             self?.switchMask()
         }
@@ -166,6 +156,7 @@ struct Vertex {
 
 struct Uniforms {
     let mask: simd_float4
+    let outputSize: simd_uint2
 }
 
 extension ViewController: MTKViewDelegate {
@@ -190,7 +181,7 @@ extension ViewController: MTKViewDelegate {
         if let texture = self.texture {
             renderEncoder.setFragmentTexture(texture, index: 0)
         }
-        renderEncoder.setRenderPipelineState(renderer.pipelineState)
+        renderEncoder.setRenderPipelineState(renderer.renderPipelineState)
         renderEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: Constants.vertices.count)
         renderEncoder.endEncoding()
         
@@ -206,7 +197,7 @@ extension ViewController: CameraDelegate {
     func cameraDidOutputImageBuffer(_ buffer: CVPixelBuffer, presentationTime: CMTime) {
         let bufferWidth = CVPixelBufferGetWidth(buffer)
         let bufferHeight = CVPixelBufferGetHeight(buffer)
-        var textureOutput: CVMetalTexture?
+        var cvMetalTexture: CVMetalTexture?
         CVMetalTextureCacheCreateTextureFromImage(
             kCFAllocatorDefault,
             renderer.textureCache,
@@ -216,54 +207,95 @@ extension ViewController: CameraDelegate {
             Int(bufferWidth),
             Int(bufferHeight),
             0,
-            &textureOutput
+            &cvMetalTexture
         )
         
-        guard let textureOutput = textureOutput else { return }
-        guard let texture = CVMetalTextureGetTexture(textureOutput) else { return }
+        guard let cvMetalTexture = cvMetalTexture else { return }
+        guard let texture = CVMetalTextureGetTexture(cvMetalTexture),
+        let outputTexture = createOutputTexture(width: bufferHeight, height: bufferWidth) else { return }
         
-        applyMetalShaders(to: texture)
+        applyMetalShaders(to: texture, outputTexture: outputTexture)
         
-        self.texture = texture
+        self.texture = outputTexture
         
-        recorder?.appendPixelBuffer(buffer, presentationTime: presentationTime)
+        if let recorder, let pixelBuffer = pixelBuffer(fromTexture: outputTexture) {
+            recorder.appendPixelBuffer(pixelBuffer, presentationTime: presentationTime)
+        }
     }
     
-    func applyMetalShaders(to texture: MTLTexture) {
-        let commandQueue = computer.commandQueue
+    func applyMetalShaders(to texture: MTLTexture, outputTexture: MTLTexture) {
+        let commandQueue = renderer.commandQueue
         var currentMask = Constants.emptyMask
         if let maskIndex = self.currentMaskIndex {
             currentMask = Constants.masks[maskIndex]
         }
-        let colorUniform = Uniforms(mask: currentMask)
+        let outputSize = simd_uint2(UInt32(outputTexture.width), UInt32(outputTexture.height))
+        let colorUniform = Uniforms(mask: currentMask, outputSize: outputSize)
         guard let commandBuffer = commandQueue.makeCommandBuffer(),
               let computeEncoder = commandBuffer.makeComputeCommandEncoder(),
-              let colorMaskBuffer = computer.device.makeBuffer(bytes: [colorUniform],
-                                                           length: MemoryLayout<Uniforms>.stride,
-                                                           options: [])
+              let colorMaskBuffer = renderer.device.makeBuffer(bytes: [colorUniform],
+                                                               length: MemoryLayout<Uniforms>.stride,
+                                                               options: [])
         else {
             return
         }
 
 
-        // Set the compute pipeline state
-        computeEncoder.setComputePipelineState(computer.pipelineState)
+        computeEncoder.setComputePipelineState(renderer.computePipelineState)
 
-        // Set the input and output textures for the shader
         computeEncoder.setTexture(texture, index: 0)
+        computeEncoder.setTexture(outputTexture, index: 1)
         computeEncoder.setBuffer(colorMaskBuffer, offset: 0, index: 0)
 
-        // Dispatch the compute shader
         let threadGroupCount = MTLSize(width: 8, height: 8, depth: 1)
         let threadGroups = MTLSize(width: (texture.width + threadGroupCount.width - 1) / threadGroupCount.width,
                                    height: (texture.height + threadGroupCount.height - 1) / threadGroupCount.height,
                                    depth: 1)
         computeEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
 
-        // End encoding and commit the command buffer
         computeEncoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
+    }
+    
+    
+    func createOutputTexture(width: Int, height: Int) -> MTLTexture? {
+        let bytesPerPixel = 4
+        let bytesPerRow = width * bytesPerPixel
+        
+        let alignment = renderer.device.minimumLinearTextureAlignment(for: .bgra8Unorm)
+        let alignedBytesPerRow = ((bytesPerRow + alignment - 1) / alignment) * alignment
+        let bufferSize = alignedBytesPerRow * height
+
+        guard let buffer = renderer.device.makeBuffer(length: bufferSize,
+                                                      options: .storageModeShared) else { return nil }
+        
+        
+        let textureDescriptor = MTLTextureDescriptor()
+        textureDescriptor.textureType = .type2D
+        textureDescriptor.pixelFormat = .bgra8Unorm
+        textureDescriptor.width = width
+        textureDescriptor.height = height
+        textureDescriptor.usage = [.shaderRead, .shaderWrite]
+        
+        return buffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: alignedBytesPerRow)
+    }
+    
+    func pixelBuffer(fromTexture texture: MTLTexture) -> CVPixelBuffer? {
+        guard let buffer = texture.buffer else { print("No buffer!!!"); return nil }
+        let pixelFormat = kCVPixelFormatType_32BGRA
+        let width = texture.width
+        let height = texture.height
+
+        var pixelBuffer: CVPixelBuffer?
+        let status = CVPixelBufferCreateWithBytes(nil, width, height, pixelFormat, buffer.contents(), 4352, nil, nil, nil, &pixelBuffer)
+
+        guard status == kCVReturnSuccess else {
+            print("error!!! \(status)")
+            return nil
+        }
+
+        return pixelBuffer
     }
 }
 

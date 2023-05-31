@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,7 +17,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mtkView contentMode="scaleToFill" colorPixelFormat="BGRA8Unorm" depthStencilPixelFormat="Invalid" translatesAutoresizingMaskIntoConstraints="NO" id="c1P-52-7Wo">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <rect key="frame" x="0.0" y="76.666666666666686" width="393" height="698.66666666666652"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="c1P-52-7Wo" secondAttribute="height" multiplier="9:16" id="gE3-E9-jGn"/>
+                                </constraints>
                             </mtkView>
                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VoV-2P-jyZ">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -32,12 +35,12 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <viewLayoutGuide key="safeArea" id="tqK-4F-kLG"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="VoV-2P-jyZ" firstAttribute="centerY" secondItem="MoF-bz-LNF" secondAttribute="centerY" id="4qY-iA-6EX"/>
                             <constraint firstItem="c1P-52-7Wo" firstAttribute="width" secondItem="MoF-bz-LNF" secondAttribute="width" id="IJZ-VD-vbI"/>
                             <constraint firstItem="VoV-2P-jyZ" firstAttribute="height" secondItem="MoF-bz-LNF" secondAttribute="height" id="Lc8-qW-3Kd"/>
-                            <constraint firstItem="c1P-52-7Wo" firstAttribute="height" secondItem="MoF-bz-LNF" secondAttribute="height" id="Mpt-lq-BvO"/>
                             <constraint firstItem="c1P-52-7Wo" firstAttribute="centerY" secondItem="MoF-bz-LNF" secondAttribute="centerY" id="PaT-ZG-ooh"/>
                             <constraint firstItem="VoV-2P-jyZ" firstAttribute="centerX" secondItem="MoF-bz-LNF" secondAttribute="centerX" id="Shm-4L-syJ"/>
                             <constraint firstItem="c1P-52-7Wo" firstAttribute="centerX" secondItem="MoF-bz-LNF" secondAttribute="centerX" id="Wte-hx-Crb"/>
@@ -53,9 +56,4 @@
             <point key="canvasLocation" x="-53" y="4"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

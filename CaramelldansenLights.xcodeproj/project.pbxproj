@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A5024F4829F9701E00123A15 /* jagermeister.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5024F4729F9701E00123A15 /* jagermeister.mp3 */; };
+		A50FDB9A2A26496A00CCE100 /* elbaion.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A50FDB992A26496A00CCE100 /* elbaion.m4a */; };
+		A50FDB9C2A265C7A00CCE100 /* jagermeister.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A50FDB9B2A265C7A00CCE100 /* jagermeister.m4a */; };
 		A54A47CE29A791F500768551 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54A47CD29A791F500768551 /* AppDelegate.swift */; };
 		A54A47D029A791F500768551 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54A47CF29A791F500768551 /* SceneDelegate.swift */; };
 		A54A47D229A791F500768551 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54A47D129A791F500768551 /* ViewController.swift */; };
@@ -20,7 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A5024F4729F9701E00123A15 /* jagermeister.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jagermeister.mp3; sourceTree = "<group>"; };
+		A50FDB992A26496A00CCE100 /* elbaion.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = elbaion.m4a; sourceTree = "<group>"; };
+		A50FDB9B2A265C7A00CCE100 /* jagermeister.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = jagermeister.m4a; sourceTree = "<group>"; };
 		A54A47CA29A791F500768551 /* Caramellights.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caramellights.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A54A47CD29A791F500768551 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A54A47CF29A791F500768551 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,7 +76,8 @@
 				A54A47D629A791F700768551 /* Assets.xcassets */,
 				A54A47D829A791F700768551 /* LaunchScreen.storyboard */,
 				A54A47DB29A791F700768551 /* Info.plist */,
-				A5024F4729F9701E00123A15 /* jagermeister.mp3 */,
+				A50FDB992A26496A00CCE100 /* elbaion.m4a */,
+				A50FDB9B2A265C7A00CCE100 /* jagermeister.m4a */,
 			);
 			path = CaramelldansenLights;
 			sourceTree = "<group>";
@@ -137,10 +140,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A50FDB9C2A265C7A00CCE100 /* jagermeister.m4a in Resources */,
 				A54A47DA29A791F700768551 /* LaunchScreen.storyboard in Resources */,
 				A54A47D729A791F700768551 /* Assets.xcassets in Resources */,
 				A54A47D529A791F500768551 /* Main.storyboard in Resources */,
-				A5024F4829F9701E00123A15 /* jagermeister.mp3 in Resources */,
+				A50FDB9A2A26496A00CCE100 /* elbaion.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +316,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -343,6 +348,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
