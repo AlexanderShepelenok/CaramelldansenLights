@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A50FDB9A2A26496A00CCE100 /* elbaion.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A50FDB992A26496A00CCE100 /* elbaion.m4a */; };
 		A50FDB9C2A265C7A00CCE100 /* jagermeister.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A50FDB9B2A265C7A00CCE100 /* jagermeister.m4a */; };
+		A539CA212A279751008370D3 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A539CA202A279751008370D3 /* PlayerViewController.swift */; };
 		A54A47CE29A791F500768551 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54A47CD29A791F500768551 /* AppDelegate.swift */; };
 		A54A47D029A791F500768551 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54A47CF29A791F500768551 /* SceneDelegate.swift */; };
 		A54A47D229A791F500768551 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54A47D129A791F500768551 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		A50FDB992A26496A00CCE100 /* elbaion.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = elbaion.m4a; sourceTree = "<group>"; };
 		A50FDB9B2A265C7A00CCE100 /* jagermeister.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = jagermeister.m4a; sourceTree = "<group>"; };
+		A539CA202A279751008370D3 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		A54A47CA29A791F500768551 /* Caramellights.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caramellights.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A54A47CD29A791F500768551 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A54A47CF29A791F500768551 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				A54A47CD29A791F500768551 /* AppDelegate.swift */,
 				A54A47CF29A791F500768551 /* SceneDelegate.swift */,
 				A54A47D129A791F500768551 /* ViewController.swift */,
+				A539CA202A279751008370D3 /* PlayerViewController.swift */,
 				A5C960AB2A20B8F400177C2E /* VideoRecorder.swift */,
 				A56192F829DDB00B004C002F /* Camera.swift */,
 				A54A47D329A791F500768551 /* Main.storyboard */,
@@ -158,6 +161,7 @@
 				A54A47E229A7920A00768551 /* Shaders.metal in Sources */,
 				A56192F929DDB00B004C002F /* Camera.swift in Sources */,
 				A54A47D229A791F500768551 /* ViewController.swift in Sources */,
+				A539CA212A279751008370D3 /* PlayerViewController.swift in Sources */,
 				A54A47CE29A791F500768551 /* AppDelegate.swift in Sources */,
 				A54A47D029A791F500768551 /* SceneDelegate.swift in Sources */,
 				A5C960AC2A20B8F400177C2E /* VideoRecorder.swift in Sources */,

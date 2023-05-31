@@ -302,10 +302,9 @@ extension ViewController: CameraDelegate {
 extension ViewController {
     
     func playVideo(url: URL) {
-        let player = AVPlayer(url: url)
-        let playerViewController = AVPlayerViewController()
-        playerViewController.player = player
-        playerViewController.modalPresentationStyle = .pageSheet
-        present(playerViewController, animated: true)
+        let playerViewController = PlayerViewController(url: url)
+        let navigationViewController = UINavigationController(rootViewController: playerViewController)
+        navigationViewController.modalPresentationStyle = .pageSheet
+        present(navigationViewController, animated: true)
     }
 }
