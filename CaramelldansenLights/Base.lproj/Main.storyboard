@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,12 +12,43 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Caramellights" customModuleProvider="target" sceneMemberID="viewController">
-                    <mtkView key="view" contentMode="scaleToFill" colorPixelFormat="BGRA8Unorm" depthStencilPixelFormat="Invalid" id="cYd-8B-V8Z">
+                    <view key="view" contentMode="scaleToFill" id="MoF-bz-LNF">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </mtkView>
+                        <subviews>
+                            <mtkView contentMode="scaleToFill" colorPixelFormat="BGRA8Unorm" depthStencilPixelFormat="Invalid" translatesAutoresizingMaskIntoConstraints="NO" id="c1P-52-7Wo">
+                                <rect key="frame" x="0.0" y="76.666666666666686" width="393" height="698.66666666666652"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="c1P-52-7Wo" secondAttribute="height" multiplier="9:16" id="gE3-E9-jGn"/>
+                                </constraints>
+                            </mtkView>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VoV-2P-jyZ">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title=" "/>
+                                <connections>
+                                    <action selector="startAction:" destination="BYZ-38-t0r" eventType="touchDown" id="vXn-JV-dPH"/>
+                                    <action selector="stopAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R60-0M-o3h"/>
+                                    <action selector="stopAction:" destination="BYZ-38-t0r" eventType="touchCancel" id="deI-V6-Fz9"/>
+                                    <action selector="stopAction:" destination="BYZ-38-t0r" eventType="touchUpOutside" id="v2E-wK-XfQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="tqK-4F-kLG"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="VoV-2P-jyZ" firstAttribute="centerY" secondItem="MoF-bz-LNF" secondAttribute="centerY" id="4qY-iA-6EX"/>
+                            <constraint firstItem="c1P-52-7Wo" firstAttribute="width" secondItem="MoF-bz-LNF" secondAttribute="width" id="IJZ-VD-vbI"/>
+                            <constraint firstItem="VoV-2P-jyZ" firstAttribute="height" secondItem="MoF-bz-LNF" secondAttribute="height" id="Lc8-qW-3Kd"/>
+                            <constraint firstItem="c1P-52-7Wo" firstAttribute="centerY" secondItem="MoF-bz-LNF" secondAttribute="centerY" id="PaT-ZG-ooh"/>
+                            <constraint firstItem="VoV-2P-jyZ" firstAttribute="centerX" secondItem="MoF-bz-LNF" secondAttribute="centerX" id="Shm-4L-syJ"/>
+                            <constraint firstItem="c1P-52-7Wo" firstAttribute="centerX" secondItem="MoF-bz-LNF" secondAttribute="centerX" id="Wte-hx-Crb"/>
+                            <constraint firstItem="VoV-2P-jyZ" firstAttribute="width" secondItem="MoF-bz-LNF" secondAttribute="width" id="wPZ-Ch-3cL"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <outlet property="mtkView" destination="cYd-8B-V8Z" id="u7f-IY-b6m"/>
+                        <outlet property="mtkView" destination="c1P-52-7Wo" id="gqO-46-b0Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
