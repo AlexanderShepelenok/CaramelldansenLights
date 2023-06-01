@@ -36,7 +36,8 @@ class ViewController: UIViewController {
     struct Renderer {
         let device: MTLDevice
         let commandQueue: MTLCommandQueue
-        let pipelineState: MTLRenderPipelineState
+        let rendererPipelineState: MTLRenderPipelineState
+        let computePipelineState: MTLComputePipelineState
         let textureCache: CVMetalTextureCache
     }
 
@@ -62,7 +63,13 @@ class ViewController: UIViewController {
         pipelineDescriptor.fragmentFunction = fragmentFunction
         pipelineDescriptor.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
 
-        guard let pipelineState = try? device.makeRenderPipelineState(descriptor: pipelineDescriptor) else {
+        guard let renderPipelineState = try? device.makeRenderPipelineState(descriptor: pipelineDescriptor) else {
+            fatalError("Unable to create pipeline")
+        }
+
+        guard
+            let computeFunction = library?.makeFunction(name: "write_texture"),
+            let computePipelineState = try? device.makeComputePipelineState(function: computeFunction) else {
             fatalError("Unable to create pipeline")
         }
 
@@ -72,7 +79,11 @@ class ViewController: UIViewController {
             fatalError("Unable to allocate texture cache.")
         }
 
-        return Renderer(device: device, commandQueue: queue, pipelineState: pipelineState, textureCache: textureCache)
+        return Renderer(device: device,
+                        commandQueue: queue,
+                        rendererPipelineState: renderPipelineState,
+                        computePipelineState: computePipelineState,
+                        textureCache: textureCache)
     }()
 
     lazy var camera: Camera = {
@@ -96,7 +107,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func startAction(_ sender: Any) {
-        let videoSize = camera.videoSize
+//        let videoSize = camera.videoSize
 //        recorder = VideoRecorder(videoWidth: videoSize.height, videoHeight: videoSize.width)
 //        recorder?.start()
         let interval = TimeInterval(0.5)
@@ -136,12 +147,16 @@ struct Vertex {
     let position: simd_float2
 }
 
+struct FragmentUniform {
+    let mask: simd_float4
+}
+
 extension ViewController: MTKViewDelegate {
 
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
-        
+
         guard let currentDrawable = view.currentDrawable else { return }
         let vertices = Constants.vertices
         guard
@@ -150,7 +165,8 @@ extension ViewController: MTKViewDelegate {
             let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor),
             let vertexBuffer = renderer.device.makeBuffer(bytes: vertices,
                                                           length: vertices.count * MemoryLayout<Vertex>.stride,
-                                                          options: []) else {
+                                                          options: [])
+        else {
             print("Failed to draw vertices")
             return
         }
@@ -167,7 +183,7 @@ extension ViewController: MTKViewDelegate {
         }
 
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-        renderEncoder.setRenderPipelineState(renderer.pipelineState)
+        renderEncoder.setRenderPipelineState(renderer.rendererPipelineState)
         renderEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: vertices.count)
         renderEncoder.endEncoding()
 
@@ -183,7 +199,7 @@ extension ViewController: CameraDelegate {
     func cameraDidOutputImageBuffer(_ buffer: CVPixelBuffer, presentationTime: CMTime) {
         let bufferWidth = CVPixelBufferGetWidth(buffer)
         let bufferHeight = CVPixelBufferGetHeight(buffer)
-        var textureOutput: CVMetalTexture?
+        var cvMetalTexture: CVMetalTexture?
         CVMetalTextureCacheCreateTextureFromImage(
             kCFAllocatorDefault,
             renderer.textureCache,
@@ -193,12 +209,72 @@ extension ViewController: CameraDelegate {
             bufferWidth,
             bufferHeight,
             0,
-            &textureOutput
+            &cvMetalTexture
         )
-        if let textureOutput = textureOutput {
-            self.texture = CVMetalTextureGetTexture(textureOutput)
+
+        if let cvMetalTexture,
+           let cameraTexture = CVMetalTextureGetTexture(cvMetalTexture),
+           let outputTexture = createOutputTexture(width: bufferHeight, height: bufferWidth) {
+            applyMetalShaders(to: cameraTexture, outputTexture: outputTexture)
+            self.texture = outputTexture
         }
     }
+
+    func applyMetalShaders(to texture: MTLTexture, outputTexture: MTLTexture) {
+        var currentMask = Constants.emptyMask
+        if let currentMaskIndex {
+            currentMask = Constants.masks[currentMaskIndex]
+        }
+        let uniforms = FragmentUniform(mask: currentMask)
+
+        guard
+            let commandBuffer = renderer.commandQueue.makeCommandBuffer(),
+            let computeEncoder = commandBuffer.makeComputeCommandEncoder(),
+            let colorMaskBuffer = renderer.device.makeBuffer(bytes: [uniforms],
+                                                            length: MemoryLayout<FragmentUniform>.stride,
+                                                            options: [])
+        else {
+            print("Failed to draw vertices")
+            return
+        }
+
+        computeEncoder.setComputePipelineState(renderer.computePipelineState)
+        computeEncoder.setTexture(texture, index: 0)
+        computeEncoder.setTexture(outputTexture, index: 1)
+        computeEncoder.setBuffer(colorMaskBuffer, offset: 0, index: 0)
+        
+        let threadGroupCount = MTLSize(width: 8, height: 8, depth: 1)
+        let threadGroups = MTLSize(width: (texture.width + threadGroupCount.width - 1) / threadGroupCount.width,
+                                   height: (texture.height + threadGroupCount.height - 1) / threadGroupCount.height,
+                                   depth: 1)
+        computeEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
+        computeEncoder.endEncoding()
+        commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
+    }
+
+    func createOutputTexture(width: Int, height: Int) -> MTLTexture? {
+        let bytesPerPixel = 4
+        let bytesPerRow = width * bytesPerPixel
+
+        let alignment = renderer.device.minimumLinearTextureAlignment(for: .bgra8Unorm)
+        let alignedBytesPerRow = ((bytesPerRow + alignment - 1) / alignment) * alignment
+        let bufferSize = alignedBytesPerRow * height
+
+        guard let buffer = renderer.device.makeBuffer(length: bufferSize,
+                                                      options: .storageModeShared) else { return nil }
+
+
+        let textureDescriptor = MTLTextureDescriptor()
+        textureDescriptor.textureType = .type2D
+        textureDescriptor.pixelFormat = .bgra8Unorm
+        textureDescriptor.width = width
+        textureDescriptor.height = height
+        textureDescriptor.usage = [.shaderRead, .shaderWrite]
+
+        return buffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: alignedBytesPerRow)
+    }
+
 }
 
 extension ViewController {

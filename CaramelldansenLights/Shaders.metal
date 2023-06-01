@@ -22,13 +22,26 @@ vertex VertexOut vertex_main(uint vertexID [[vertex_id]],
     VertexOut out;
     out.position = vector_float4(0, 0, 0, 1);
     out.position.xy = vertices[vertexID].position.xy;
-    out.textureCoordinate = (1 - out.position.yx) * 0.5;
+    out.textureCoordinate = (out.position.xy + 1) * 0.5; // [-1;1] -> [0; 1]
     return out;
 }
+
+struct FragmentUniform {
+    float4 mask;
+};
 
 fragment float4 fragment_main(VertexOut in [[stage_in]],
                               texture2d<float> texture [[texture(0)]]) {
     constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
     float4 color = texture.sample(textureSampler, in.textureCoordinate);
-    return color * float4(in.textureCoordinate.x, in.textureCoordinate.y, 1.0 - in.textureCoordinate.x, 1.0);
+    return color;
+}
+
+kernel void write_texture(texture2d<float, access::read> inputTexture [[texture(0)]],
+                         texture2d<float, access::write> outputTexture [[texture(1)]],
+                         constant FragmentUniform &uniforms [[buffer(0)]],
+                         uint2 position [[thread_position_in_grid]]) {
+    float4 inputColor = inputTexture.read(position);
+    float4 outputColor = inputColor * uniforms.mask;
+    outputTexture.write(outputColor, position.yx);
 }
