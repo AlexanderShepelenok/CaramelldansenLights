@@ -1,0 +1,547 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A5342B662A2A18FC0022AAD7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B4F2A2A18FC0022AAD7 /* ViewController.swift */; };
+		A5342B672A2A18FC0022AAD7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5342B502A2A18FC0022AAD7 /* Settings.bundle */; };
+		A5342B682A2A18FC0022AAD7 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B512A2A18FC0022AAD7 /* Song.swift */; };
+		A5342B692A2A18FC0022AAD7 /* electronic_rock_70.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A5342B542A2A18FC0022AAD7 /* electronic_rock_70.m4a */; };
+		A5342B6A2A2A18FC0022AAD7 /* electro_140.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A5342B552A2A18FC0022AAD7 /* electro_140.m4a */; };
+		A5342B6B2A2A18FC0022AAD7 /* metal_105.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A5342B562A2A18FC0022AAD7 /* metal_105.m4a */; };
+		A5342B6C2A2A18FC0022AAD7 /* songs.json in Resources */ = {isa = PBXBuildFile; fileRef = A5342B572A2A18FC0022AAD7 /* songs.json */; };
+		A5342B6D2A2A18FC0022AAD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5342B582A2A18FC0022AAD7 /* Assets.xcassets */; };
+		A5342B6E2A2A18FC0022AAD7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5342B592A2A18FC0022AAD7 /* LaunchScreen.storyboard */; };
+		A5342B6F2A2A18FC0022AAD7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5342B5B2A2A18FC0022AAD7 /* Main.storyboard */; };
+		A5342B712A2A18FC0022AAD7 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B5E2A2A18FC0022AAD7 /* PlayerViewController.swift */; };
+		A5342B722A2A18FC0022AAD7 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = A5342B5F2A2A18FC0022AAD7 /* Shaders.metal */; };
+		A5342B732A2A18FC0022AAD7 /* VideoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B602A2A18FC0022AAD7 /* VideoRecorder.swift */; };
+		A5342B742A2A18FC0022AAD7 /* SongDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B612A2A18FC0022AAD7 /* SongDescription.swift */; };
+		A5342B752A2A18FC0022AAD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B622A2A18FC0022AAD7 /* AppDelegate.swift */; };
+		A5342B762A2A18FC0022AAD7 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B632A2A18FC0022AAD7 /* Camera.swift */; };
+		A5342B772A2A18FC0022AAD7 /* SongProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B642A2A18FC0022AAD7 /* SongProvider.swift */; };
+		A5342B782A2A18FC0022AAD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B652A2A18FC0022AAD7 /* SceneDelegate.swift */; };
+		A5342B802A2A1C970022AAD7 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B7F2A2A1C970022AAD7 /* MetalRenderer.swift */; };
+		A5342B822A2A1E1E0022AAD7 /* ColorMaskProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B812A2A1E1E0022AAD7 /* ColorMaskProvider.swift */; };
+		A5342B862A2A205D0022AAD7 /* MetalTextureFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5342B852A2A205D0022AAD7 /* MetalTextureFactory.swift */; };
+		A57E35E92A2A428600DF2344 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57E35E82A2A428600DF2344 /* Vertex.swift */; };
+		A57E35EB2A2A429600DF2344 /* Uniforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57E35EA2A2A429600DF2344 /* Uniforms.swift */; };
+		A57E35F02A2A48E700DF2344 /* jagermeister.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A57E35ED2A2A48E600DF2344 /* jagermeister.m4a */; };
+		A57E35F12A2A48E700DF2344 /* elbaion.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A57E35EE2A2A48E700DF2344 /* elbaion.m4a */; };
+		A57E35F22A2A48E700DF2344 /* caramelldansen.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A57E35EF2A2A48E700DF2344 /* caramelldansen.m4a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A5342B4F2A2A18FC0022AAD7 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A5342B502A2A18FC0022AAD7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		A5342B512A2A18FC0022AAD7 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		A5342B542A2A18FC0022AAD7 /* electronic_rock_70.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = electronic_rock_70.m4a; sourceTree = "<group>"; };
+		A5342B552A2A18FC0022AAD7 /* electro_140.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = electro_140.m4a; sourceTree = "<group>"; };
+		A5342B562A2A18FC0022AAD7 /* metal_105.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = metal_105.m4a; sourceTree = "<group>"; };
+		A5342B572A2A18FC0022AAD7 /* songs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = songs.json; sourceTree = "<group>"; };
+		A5342B582A2A18FC0022AAD7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A5342B5A2A2A18FC0022AAD7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A5342B5C2A2A18FC0022AAD7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A5342B5D2A2A18FC0022AAD7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5342B5E2A2A18FC0022AAD7 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		A5342B5F2A2A18FC0022AAD7 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		A5342B602A2A18FC0022AAD7 /* VideoRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRecorder.swift; sourceTree = "<group>"; };
+		A5342B612A2A18FC0022AAD7 /* SongDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongDescription.swift; sourceTree = "<group>"; };
+		A5342B622A2A18FC0022AAD7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A5342B632A2A18FC0022AAD7 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		A5342B642A2A18FC0022AAD7 /* SongProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongProvider.swift; sourceTree = "<group>"; };
+		A5342B652A2A18FC0022AAD7 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A5342B7F2A2A1C970022AAD7 /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
+		A5342B812A2A1E1E0022AAD7 /* ColorMaskProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMaskProvider.swift; sourceTree = "<group>"; };
+		A5342B852A2A205D0022AAD7 /* MetalTextureFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalTextureFactory.swift; sourceTree = "<group>"; };
+		A54A47CA29A791F500768551 /* StrobeLights.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StrobeLights.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A57E35E82A2A428600DF2344 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
+		A57E35EA2A2A429600DF2344 /* Uniforms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Uniforms.swift; sourceTree = "<group>"; };
+		A57E35ED2A2A48E600DF2344 /* jagermeister.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = jagermeister.m4a; sourceTree = "<group>"; };
+		A57E35EE2A2A48E700DF2344 /* elbaion.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = elbaion.m4a; sourceTree = "<group>"; };
+		A57E35EF2A2A48E700DF2344 /* caramelldansen.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = caramelldansen.m4a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A54A47C729A791F500768551 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A5342B4E2A2A18FC0022AAD7 /* StrobeLights */ = {
+			isa = PBXGroup;
+			children = (
+				A5342B792A2A19DF0022AAD7 /* Sources */,
+				A5342B502A2A18FC0022AAD7 /* Settings.bundle */,
+				A5342B522A2A18FC0022AAD7 /* Resources */,
+			);
+			path = StrobeLights;
+			sourceTree = "<group>";
+		};
+		A5342B522A2A18FC0022AAD7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A5342B532A2A18FC0022AAD7 /* Songs */,
+				A5342B572A2A18FC0022AAD7 /* songs.json */,
+				A5342B582A2A18FC0022AAD7 /* Assets.xcassets */,
+				A5342B592A2A18FC0022AAD7 /* LaunchScreen.storyboard */,
+				A5342B5B2A2A18FC0022AAD7 /* Main.storyboard */,
+				A5342B5D2A2A18FC0022AAD7 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A5342B532A2A18FC0022AAD7 /* Songs */ = {
+			isa = PBXGroup;
+			children = (
+				A57E35EF2A2A48E700DF2344 /* caramelldansen.m4a */,
+				A57E35EE2A2A48E700DF2344 /* elbaion.m4a */,
+				A57E35ED2A2A48E600DF2344 /* jagermeister.m4a */,
+				A5342B542A2A18FC0022AAD7 /* electronic_rock_70.m4a */,
+				A5342B552A2A18FC0022AAD7 /* electro_140.m4a */,
+				A5342B562A2A18FC0022AAD7 /* metal_105.m4a */,
+			);
+			path = Songs;
+			sourceTree = "<group>";
+		};
+		A5342B792A2A19DF0022AAD7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A5342B7A2A2A19EF0022AAD7 /* ViewControllers */,
+				A5342B7B2A2A1A150022AAD7 /* Models */,
+				A5342B7E2A2A1C810022AAD7 /* Rendering */,
+				A5342B7D2A2A1C5E0022AAD7 /* Services */,
+				A5342B7C2A2A1A260022AAD7 /* Delegates */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		A5342B7A2A2A19EF0022AAD7 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A5342B4F2A2A18FC0022AAD7 /* ViewController.swift */,
+				A5342B5E2A2A18FC0022AAD7 /* PlayerViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A5342B7B2A2A1A150022AAD7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A5342B512A2A18FC0022AAD7 /* Song.swift */,
+				A5342B612A2A18FC0022AAD7 /* SongDescription.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A5342B7C2A2A1A260022AAD7 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				A5342B622A2A18FC0022AAD7 /* AppDelegate.swift */,
+				A5342B652A2A18FC0022AAD7 /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		A5342B7D2A2A1C5E0022AAD7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A5342B632A2A18FC0022AAD7 /* Camera.swift */,
+				A5342B602A2A18FC0022AAD7 /* VideoRecorder.swift */,
+				A5342B642A2A18FC0022AAD7 /* SongProvider.swift */,
+				A5342B812A2A1E1E0022AAD7 /* ColorMaskProvider.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A5342B7E2A2A1C810022AAD7 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				A57E35EC2A2A42AA00DF2344 /* MetalTypes */,
+				A5342B5F2A2A18FC0022AAD7 /* Shaders.metal */,
+				A5342B7F2A2A1C970022AAD7 /* MetalRenderer.swift */,
+				A5342B852A2A205D0022AAD7 /* MetalTextureFactory.swift */,
+			);
+			path = Rendering;
+			sourceTree = "<group>";
+		};
+		A54A47C129A791F500768551 = {
+			isa = PBXGroup;
+			children = (
+				A5342B4E2A2A18FC0022AAD7 /* StrobeLights */,
+				A54A47CB29A791F500768551 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A54A47CB29A791F500768551 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A54A47CA29A791F500768551 /* StrobeLights.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A57E35EC2A2A42AA00DF2344 /* MetalTypes */ = {
+			isa = PBXGroup;
+			children = (
+				A57E35E82A2A428600DF2344 /* Vertex.swift */,
+				A57E35EA2A2A429600DF2344 /* Uniforms.swift */,
+			);
+			path = MetalTypes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A54A47C929A791F500768551 /* StrobeLights */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A54A47DE29A791F700768551 /* Build configuration list for PBXNativeTarget "StrobeLights" */;
+			buildPhases = (
+				A57E35E72A2A3BC800DF2344 /* SwiftLint */,
+				A54A47C629A791F500768551 /* Sources */,
+				A54A47C729A791F500768551 /* Frameworks */,
+				A54A47C829A791F500768551 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StrobeLights;
+			productName = CaramelldansenLights;
+			productReference = A54A47CA29A791F500768551 /* StrobeLights.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A54A47C229A791F500768551 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					A54A47C929A791F500768551 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+				};
+			};
+			buildConfigurationList = A54A47C529A791F500768551 /* Build configuration list for PBXProject "StrobeLights" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A54A47C129A791F500768551;
+			productRefGroup = A54A47CB29A791F500768551 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A54A47C929A791F500768551 /* StrobeLights */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A54A47C829A791F500768551 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5342B6C2A2A18FC0022AAD7 /* songs.json in Resources */,
+				A57E35F22A2A48E700DF2344 /* caramelldansen.m4a in Resources */,
+				A5342B692A2A18FC0022AAD7 /* electronic_rock_70.m4a in Resources */,
+				A5342B6B2A2A18FC0022AAD7 /* metal_105.m4a in Resources */,
+				A57E35F02A2A48E700DF2344 /* jagermeister.m4a in Resources */,
+				A5342B6F2A2A18FC0022AAD7 /* Main.storyboard in Resources */,
+				A5342B6A2A2A18FC0022AAD7 /* electro_140.m4a in Resources */,
+				A5342B6E2A2A18FC0022AAD7 /* LaunchScreen.storyboard in Resources */,
+				A5342B6D2A2A18FC0022AAD7 /* Assets.xcassets in Resources */,
+				A5342B672A2A18FC0022AAD7 /* Settings.bundle in Resources */,
+				A57E35F12A2A48E700DF2344 /* elbaion.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A57E35E72A2A3BC800DF2344 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint > /dev/null; then\n  swiftlint\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A54A47C629A791F500768551 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5342B822A2A1E1E0022AAD7 /* ColorMaskProvider.swift in Sources */,
+				A5342B762A2A18FC0022AAD7 /* Camera.swift in Sources */,
+				A5342B862A2A205D0022AAD7 /* MetalTextureFactory.swift in Sources */,
+				A5342B722A2A18FC0022AAD7 /* Shaders.metal in Sources */,
+				A5342B682A2A18FC0022AAD7 /* Song.swift in Sources */,
+				A5342B732A2A18FC0022AAD7 /* VideoRecorder.swift in Sources */,
+				A5342B802A2A1C970022AAD7 /* MetalRenderer.swift in Sources */,
+				A57E35E92A2A428600DF2344 /* Vertex.swift in Sources */,
+				A5342B742A2A18FC0022AAD7 /* SongDescription.swift in Sources */,
+				A5342B782A2A18FC0022AAD7 /* SceneDelegate.swift in Sources */,
+				A5342B772A2A18FC0022AAD7 /* SongProvider.swift in Sources */,
+				A57E35EB2A2A429600DF2344 /* Uniforms.swift in Sources */,
+				A5342B752A2A18FC0022AAD7 /* AppDelegate.swift in Sources */,
+				A5342B662A2A18FC0022AAD7 /* ViewController.swift in Sources */,
+				A5342B712A2A18FC0022AAD7 /* PlayerViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A5342B592A2A18FC0022AAD7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5342B5A2A2A18FC0022AAD7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		A5342B5B2A2A18FC0022AAD7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5342B5C2A2A18FC0022AAD7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A54A47DC29A791F700768551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A54A47DD29A791F700768551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A54A47DF29A791F700768551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D6KCZLZZNE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StrobeLights/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Strobe Lights";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Video recording";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexshep.StrobeLights;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A54A47E029A791F700768551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StrobeLights/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Strobe Lights";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Video recording";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexshep.StrobeLights;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A54A47C529A791F500768551 /* Build configuration list for PBXProject "StrobeLights" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A54A47DC29A791F700768551 /* Debug */,
+				A54A47DD29A791F700768551 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A54A47DE29A791F700768551 /* Build configuration list for PBXNativeTarget "StrobeLights" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A54A47DF29A791F700768551 /* Debug */,
+				A54A47E029A791F700768551 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A54A47C229A791F500768551 /* Project object */;
+}

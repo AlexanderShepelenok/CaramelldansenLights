@@ -1,0 +1,32 @@
+{
+    "electronic_rock_70" : {
+        "format": "m4a",
+        "name": "Electronic Rock",
+        "bpm": 70
+    },
+    "metal_105" : {
+        "format": "m4a",
+        "name": "Metal",
+        "bpm": 105
+    },
+    "electro_140" : {
+        "format": "m4a",
+        "name": "Electronic",
+        "bpm": 140
+    },
+    "elbaion" : {
+      "format": "m4a",
+      "name": "El Baion",
+      "bpm": 90
+    },
+    "caramelldansen" : {
+      "format": "m4a",
+      "name": "Caramelldansen",
+      "bpm": 165
+    },
+    "jagermeister" : {
+      "format": "m4a",
+      "name": "Jagermeister",
+      "bpm": 149
+    },
+}

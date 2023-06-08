@@ -22,8 +22,7 @@ vertex VertexOut vertex_main(uint vertexID [[vertex_id]],
     VertexOut out;
     float2 position = vertices[vertexID].position.xy;
     out.position = float4(position.xy, 0, 1);
-    
-    // Convert coordinate space from [-1,1] to [0,-1]
+    // Convert coordinate space from [-1,1] to [0,1] reverting Y from -1 to 1
     out.textureCoordinate = float2((position.x + 1) * 0.5, 1 - (position.y + 1) * 0.5);
     return out;
 }

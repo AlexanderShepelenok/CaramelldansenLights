@@ -1,0 +1,70 @@
+opt_in_rules:
+  - anyobject_protocol
+  - attributes
+  - closure_body_length
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - colon
+  - contains_over_first_not_nil
+  - convenience_type
+  - empty_count
+  - empty_enum_arguments
+  - empty_string
+  - explicit_init
+  - fallthrough
+  - fatal_error_message
+  - file_name
+  - first_where
+  - force_cast
+  - force_try
+  - force_unwrapping
+  - function_default_parameter_at_end
+  - identical_operands
+  - implicit_return
+  - implicitly_unwrapped_optional
+  - last_where
+  - legacy_cggeometry_functions
+  - legacy_constant
+  - legacy_constructor
+  - legacy_nsgeometry_functions
+  - legacy_random
+  - modifier_order
+  - multiline_arguments
+  - multiline_function_chains
+  - multiline_parameters
+  - operator_usage_whitespace
+  - private_action
+  - private_outlet
+  - reduce_into
+  - redundant_string_enum_value
+  - redundant_void_return
+  - return_arrow_whitespace
+  - strong_iboutlet
+  - trailing_newline
+  - type_name
+  - unneeded_parentheses_in_closure_argument
+  - unused_closure_parameter
+  - unused_optional_binding
+  - vertical_whitespace
+  - void_return
+  - custom_rules
+
+colon:
+  apply_to_dictionaries: false
+
+indentation: 2
+
+custom_rules:
+  no_objcMembers:
+    name: "@objcMembers"
+    regex: "@objcMembers"
+    message: "Explicitly use @objc on each member you want to expose to Objective-C"
+    severity: error
+  no_direct_standard_out_logs:
+    name: "Writing log messages directly to standard out is disallowed"
+    regex: "(\\bprint|\\bdebugPrint|\\bdump|Swift\\.print|Swift\\.debugPrint|Swift\\.dump)\\s*\\("
+    match_kinds:
+    - identifier
+    message: "Don't commit `print(…)`, `debugPrint(…)`, or `dump(…)` as they write to standard out in release. Either log to a dedicated logging system or silence this warning in debug-only scenarios explicitly using `// swiftlint:disable:next no_direct_standard_out_logs`"
+    severity: warning

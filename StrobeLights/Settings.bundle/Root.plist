@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Values</key>
+			<array>
+				<string>electronic_rock_70</string>
+				<string>metal_105</string>
+				<string>electro_140</string>
+				<string>caramelldansen</string>
+				<string>elbaion</string>
+				<string>jagermeister</string>
+			</array>
+			<key>Title</key>
+			<string>Music</string>
+			<key>DefaultValue</key>
+			<string>StrobeLights</string>
+			<key>Key</key>
+			<string>song</string>
+			<key>Titles</key>
+			<array>
+				<string>Electronic Rock</string>
+				<string>Metal</string>
+				<string>Electronic</string>
+				<string>Caramelldansen</string>
+				<string>El Baion</string>
+				<string>Jagermeister</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
