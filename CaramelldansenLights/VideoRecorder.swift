@@ -62,7 +62,6 @@ final class VideoRecorder {
                 if videoInput.isReadyForMoreMediaData {
                     adaptor.append(buffer, withPresentationTime: relativeTime)
                     latestRelativePresentationTime = relativeTime
-                    print("data added! \(relativeTime.value)")
                 }
             }
         }

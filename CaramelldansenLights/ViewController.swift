@@ -107,9 +107,9 @@ class ViewController: UIViewController {
     }
 
     @IBAction func startAction(_ sender: Any) {
-//        let videoSize = camera.videoSize
-//        recorder = VideoRecorder(videoWidth: videoSize.height, videoHeight: videoSize.width)
-//        recorder?.start()
+        let videoSize = camera.videoSize
+        recorder = VideoRecorder(videoWidth: videoSize.height, videoHeight: videoSize.width)
+        recorder?.start()
         let interval = TimeInterval(0.5)
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] time in
             self?.switchMask()
@@ -117,14 +117,14 @@ class ViewController: UIViewController {
     }
     
     @IBAction func stopAction(_ sender: Any) {
-//        recorder?.stop { [weak self] videoURL in
-//            if let videoURL {
-//                DispatchQueue.main.async {
-//                    self?.playVideo(url: videoURL)
-//                    self?.recorder = nil
-//                }
-//            }
-//        }
+        recorder?.stop { [weak self] videoURL in
+            if let videoURL {
+                DispatchQueue.main.async {
+                    self?.playVideo(url: videoURL)
+                    self?.recorder = nil
+                }
+            }
+        }
         self.timer?.invalidate()
         self.timer = nil
         self.currentMaskIndex = nil
@@ -149,6 +149,7 @@ struct Vertex {
 
 struct FragmentUniform {
     let mask: simd_float4
+    let outputSize: simd_uint2
 }
 
 extension ViewController: MTKViewDelegate {
@@ -173,13 +174,6 @@ extension ViewController: MTKViewDelegate {
 
         if let texture {
             renderEncoder.setFragmentTexture(texture, index: 0)
-            let aspectRatio = Double(texture.width) / Double(texture.height)
-            renderEncoder.setViewport(MTLViewport(originX: 0,
-                                                  originY: 0,
-                                                  width: Double(mtkView.drawableSize.width),
-                                                  height: Double(mtkView.drawableSize.width) * aspectRatio,
-                                                  znear: 0,
-                                                  zfar: 0))
         }
 
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
@@ -217,6 +211,9 @@ extension ViewController: CameraDelegate {
            let outputTexture = createOutputTexture(width: bufferHeight, height: bufferWidth) {
             applyMetalShaders(to: cameraTexture, outputTexture: outputTexture)
             self.texture = outputTexture
+            if let cvPixelBuffer = pixelBuffer(fromTexture: outputTexture) {
+                recorder?.appendPixelBuffer(cvPixelBuffer, presentationTime: presentationTime)
+            }
         }
     }
 
@@ -225,7 +222,8 @@ extension ViewController: CameraDelegate {
         if let currentMaskIndex {
             currentMask = Constants.masks[currentMaskIndex]
         }
-        let uniforms = FragmentUniform(mask: currentMask)
+        let outputSize = simd_uint2(UInt32(outputTexture.width), UInt32(outputTexture.height))
+        let uniforms = FragmentUniform(mask: currentMask, outputSize: outputSize)
 
         guard
             let commandBuffer = renderer.commandQueue.makeCommandBuffer(),
@@ -243,7 +241,7 @@ extension ViewController: CameraDelegate {
         computeEncoder.setTexture(outputTexture, index: 1)
         computeEncoder.setBuffer(colorMaskBuffer, offset: 0, index: 0)
         
-        let threadGroupCount = MTLSize(width: 8, height: 8, depth: 1)
+        let threadGroupCount = MTLSize(width: 32, height: 18, depth: 1)
         let threadGroups = MTLSize(width: (texture.width + threadGroupCount.width - 1) / threadGroupCount.width,
                                    height: (texture.height + threadGroupCount.height - 1) / threadGroupCount.height,
                                    depth: 1)
@@ -264,7 +262,6 @@ extension ViewController: CameraDelegate {
         guard let buffer = renderer.device.makeBuffer(length: bufferSize,
                                                       options: .storageModeShared) else { return nil }
 
-
         let textureDescriptor = MTLTextureDescriptor()
         textureDescriptor.textureType = .type2D
         textureDescriptor.pixelFormat = .bgra8Unorm
@@ -273,6 +270,23 @@ extension ViewController: CameraDelegate {
         textureDescriptor.usage = [.shaderRead, .shaderWrite]
 
         return buffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: alignedBytesPerRow)
+    }
+
+    func pixelBuffer(fromTexture texture: MTLTexture) -> CVPixelBuffer? {
+        guard let buffer = texture.buffer else { return nil }
+        let pixelFormat = kCVPixelFormatType_32BGRA
+        let width = texture.width
+        let height = texture.height
+
+        var pixelBuffer: CVPixelBuffer?
+        let status = CVPixelBufferCreateWithBytes(nil, width, height, pixelFormat, buffer.contents(), texture.bufferBytesPerRow, nil, nil, nil, &pixelBuffer)
+
+        guard status == kCVReturnSuccess else {
+            print("Pixel buffer error: \(status)")
+            return nil
+        }
+
+        return pixelBuffer
     }
 
 }

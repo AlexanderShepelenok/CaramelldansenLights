@@ -22,12 +22,13 @@ vertex VertexOut vertex_main(uint vertexID [[vertex_id]],
     VertexOut out;
     out.position = vector_float4(0, 0, 0, 1);
     out.position.xy = vertices[vertexID].position.xy;
-    out.textureCoordinate = (out.position.xy + 1) * 0.5; // [-1;1] -> [0; 1]
+    out.textureCoordinate = float2((out.position.x + 1) * 0.5, 1 - (out.position.y + 1) * 0.5); // [-1;1] -> [0; 1]
     return out;
 }
 
 struct FragmentUniform {
     float4 mask;
+    uint2 output_size;
 };
 
 fragment float4 fragment_main(VertexOut in [[stage_in]],
@@ -43,5 +44,6 @@ kernel void write_texture(texture2d<float, access::read> inputTexture [[texture(
                          uint2 position [[thread_position_in_grid]]) {
     float4 inputColor = inputTexture.read(position);
     float4 outputColor = inputColor * uniforms.mask;
-    outputTexture.write(outputColor, position.yx);
+    uint2 rotatedPosition = uint2(uniforms.output_size.x - position.y, position.x);
+    outputTexture.write(outputColor, rotatedPosition);
 }
